@@ -1,0 +1,24 @@
+prompts:
+  - "Write a tweet about {{topic}}"
+  - "Write a very concise, funny tweet about {{topic}}"
+  # - "data/funny_prompt.js"
+
+providers: [openai:gpt-3.5-turbo-1106, openai:gpt-4-1106-preview]
+
+tests:
+  - vars:
+      topic: bananas
+
+  - vars:
+      topic: avocado toast
+    assert:
+      - type: icontains
+        value: avocado
+      - type: javascript
+        value: 1 / (output.length + 1) 
+
+  - vars:
+      topic: new york city
+    assert:
+      - type: model-graded-closedqa
+        value: ensure that the output is funny
